@@ -6,7 +6,7 @@ body {
   color: #e2e8f0;
 }
 
-/* --- Controlled Container Width (Increased slightly to comfortably fit header text) --- */
+/* --- Controlled Container Width --- */
 .container {
   max-width: 780px; /* Normal view width: perfectly balanced */
   margin: 0 auto;
@@ -70,7 +70,7 @@ header .sub {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
 }
 
-/* --- Info Box Styles (Guarantees title & button stay on one line) --- */
+/* --- Info Box Styles --- */
 .info-box .info-header {
   display: flex;
   justify-content: space-between;
@@ -85,7 +85,7 @@ header .sub {
   font-size: 1.05rem;
   color: #f1f5f9;
   margin: 0;
-  white-space: nowrap; /* Forces title to stay on one line */
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   flex-grow: 1;
@@ -102,7 +102,7 @@ header .sub {
   font-size: 0.8rem;
   font-weight: 500;
   white-space: nowrap;
-  flex-shrink: 0; /* Prevents button from shrinking or wrapping */
+  flex-shrink: 0;
   transition: background 0.2s;
 }
 
@@ -129,9 +129,10 @@ header .sub {
   margin-bottom: 12px;
 }
 
+/* --- Diagnostic Stages Grid (All 4 cards forced into one single line) --- */
 .stages-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
 }
 
@@ -421,9 +422,19 @@ footer {
 }
 
 /* --- Responsive Media Queries --- */
+@media (max-width: 1100px) {
+  .stages-grid {
+    grid-template-columns: repeat(2, 1fr); /* Falls back to 2x2 grid on medium screens */
+  }
+}
+
 @media (max-width: 900px) {
   .main-layout.split-view {
     grid-template-columns: 1fr;
+  }
+  
+  .stages-grid {
+    grid-template-columns: 1fr; /* Stacks vertically on mobile */
   }
   
   .preview-card, .match-height-card {
