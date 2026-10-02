@@ -6,17 +6,18 @@ body {
   color: #e2e8f0;
 }
 
+/* --- Controlled Container Width (Increased slightly to comfortably fit header text) --- */
 .container {
-  max-width: 900px;
+  max-width: 780px; /* Normal view width: perfectly balanced */
   margin: 0 auto;
   padding: 24px;
   box-sizing: border-box;
   transition: max-width 0.3s ease;
 }
 
-/* Expands container smoothly when split view is active */
+/* Expands gracefully only when split view is active */
 .container.has-results {
-  max-width: 1250px;
+  max-width: 1050px; 
 }
 
 header {
@@ -69,28 +70,39 @@ header .sub {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
 }
 
-/* --- Info Box Styles --- */
+/* --- Info Box Styles (Guarantees title & button stay on one line) --- */
 .info-box .info-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: nowrap;
+  gap: 16px;
   cursor: pointer;
+  width: 100%;
 }
 
 .info-box h2 {
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   color: #f1f5f9;
   margin: 0;
+  white-space: nowrap; /* Forces title to stay on one line */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-grow: 1;
 }
 
+/* Compact, single-line hide/show button */
 .toggle-btn {
   background: #1e293b;
   border: 1px solid #334155;
   color: #cbd5e1;
-  padding: 6px 12px;
+  padding: 5px 12px;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0; /* Prevents button from shrinking or wrapping */
   transition: background 0.2s;
 }
 
@@ -248,8 +260,8 @@ header .sub {
 .main-layout.split-view {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  align-items: start;
+  gap: 20px;
+  align-items: stretch;
 }
 
 .left-column, .right-column {
@@ -258,16 +270,20 @@ header .sub {
   width: 100%;
 }
 
-.sticky-result {
-  position: sticky;
-  top: 24px;
+/* Ensures both cards take full height of the grid row to match sizes */
+.preview-card, .match-height-card {
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   margin-bottom: 0;
 }
 
 /* --- Preview & Actions Inside Left Column --- */
 .preview {
   width: 100%;
-  max-height: 280px;
+  max-height: 260px;
   object-fit: contain;
   border-radius: 8px;
   border: 1px solid #1e293b;
@@ -275,10 +291,16 @@ header .sub {
   margin-bottom: 16px;
 }
 
-.actions {
+/* Horizontal Button Layout (Analyze & Remove side-by-side) */
+.horizontal-actions {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  flex-direction: row;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.horizontal-actions button {
+  flex: 1;
 }
 
 button {
@@ -373,7 +395,7 @@ button:disabled {
 }
 
 .fill.top {
-  background: #10b981; /* Highlights the winning predicted class */
+  background: #10b981;
 }
 
 /* --- Error Box --- */
@@ -401,10 +423,10 @@ footer {
 /* --- Responsive Media Queries --- */
 @media (max-width: 900px) {
   .main-layout.split-view {
-    grid-template-columns: 1fr; /* Stacks back to single column cleanly on mobile/smaller tablets */
+    grid-template-columns: 1fr;
   }
   
-  .sticky-result {
-    position: static;
+  .preview-card, .match-height-card {
+    height: auto;
   }
 }

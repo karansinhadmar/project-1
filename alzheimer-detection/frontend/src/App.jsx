@@ -73,78 +73,73 @@ export default function App() {
         </span>
       </header>
 
-      {/* Hide info & sample boxes only when results are active */}
-      {!result && (
-        <>
-          {/* Info Box: About Alzheimer's & MRI Stages */}
-          <section className="card info-box">
-            <div className="info-header" onClick={() => setShowInfo((prev) => !prev)}>
-              <h2>📖 About Alzheimer's & Classification Stages</h2>
-              <button type="button" className="toggle-btn" aria-label="Toggle details">
-                {showInfo ? "▲ Hide" : "▼ Show"}
-              </button>
-            </div>
+      {/* Info Box: About Alzheimer's & MRI Stages */}
+      <section className="card info-box">
+        <div className="info-header" onClick={() => setShowInfo((prev) => !prev)}>
+          <h2>📖 About Alzheimer's & Classification Stages</h2>
+          <button type="button" style={{width:"50px",display:"flex",justifyContent:"center"}} className="toggle-btn" aria-label="Toggle details">
+            {showInfo ? "▲" : "▼"}
+          </button>
+        </div>
 
-            {showInfo && (
-              <div className="info-content">
-                <p className="intro-text">
-                  <strong>Alzheimer’s disease</strong> is a progressive neurodegenerative disorder caused by abnormal
-                  accumulations of <em>beta-amyloid plaques</em> and <em>tau tangles</em>, leading to widespread neuronal cell
-                  death and brain atrophy (shrinkage), primarily starting in the hippocampus.
-                </p>
-
-                <h3>MRI Diagnostic Classes</h3>
-                <div className="stages-grid">
-                  <div className="stage-card">
-                    <h4>1. Non-Demented</h4>
-                    <p>Preserved brain volume, intact hippocampus, and normal, narrow ventricles without marked atrophy.</p>
-                  </div>
-
-                  <div className="stage-card">
-                    <h4>2. Very Mild Dementia</h4>
-                    <p>Early structural decline localized to the entorhinal cortex and hippocampus with slight ventricle widening.</p>
-                  </div>
-
-                  <div className="stage-card">
-                    <h4>3. Mild Dementia</h4>
-                    <p>Evident atrophy in temporal lobes, expanding lateral ventricles, and pronounced deepening of cortical sulci.</p>
-                  </div>
-
-                  <div className="stage-card">
-                    <h4>4. Moderate Dementia</h4>
-                    <p>Severe, diffuse cerebral atrophy, massive ventricle enlargement, and extensive loss of cortical gray matter.</p>
-                  </div>
-                </div>
-              </div>
-            )}
-          </section>
-
-          {/* Sample Image & Text Box */}
-          <div className="sample-combined-box">
-            <p className="sample-info-text">
-              ⚠️ Reference Guide: This box shows a sample image of an MRI scan.
+        {showInfo && (
+          <div className="info-content">
+            <p className="intro-text">
+              <strong>Alzheimer’s disease</strong> is a progressive neurodegenerative disorder caused by abnormal
+              accumulations of <em>beta-amyloid plaques</em> and <em>tau tangles</em>, leading to widespread neuronal cell
+              death and brain atrophy (shrinkage), primarily starting in the hippocampus.
             </p>
-            <button 
-              type="button"
-              className="toggle-sample-btn"
-              onClick={() => setShowSample(!showSample)}
-            >
-              {showSample ? "Hide Sample Image" : "Show Sample Image"}
-            </button>
-            
-            {showSample && (
-              <div className="sample-image-container">
-                <img src={sampleMriImage} alt="Sample MRI Scan" className="sample-mri-img" />
-              </div>
-            )}
-          </div>
-        </>
-      )}
 
-      {/* Main layout wrapper for split screen */}
+            <h3>MRI Diagnostic Classes</h3>
+            <div className="stages-grid">
+              <div className="stage-card">
+                <h4>1. Non-Demented</h4>
+                <p>Preserved brain volume, intact hippocampus, and normal, narrow ventricles without marked atrophy.</p>
+              </div>
+
+              <div className="stage-card">
+                <h4>2. Very Mild Dementia</h4>
+                <p>Early structural decline localized to the entorhinal cortex and hippocampus with slight ventricle widening.</p>
+              </div>
+
+              <div className="stage-card">
+                <h4>3. Mild Dementia</h4>
+                <p>Evident atrophy in temporal lobes, expanding lateral ventricles, and pronounced deepening of cortical sulci.</p>
+              </div>
+
+              <div className="stage-card">
+                <h4>4. Moderate Dementia</h4>
+                <p>Severe, diffuse cerebral atrophy, massive ventricle enlargement, and extensive loss of cortical gray matter.</p>
+              </div>
+            </div>
+          </div>
+        )}
+      </section>
+
+      {/* Sample Image & Text Box */}
+      <div className="sample-combined-box">
+        <p className="sample-info-text">
+          ⚠️ Reference Guide: This box shows a sample image of an MRI scan.
+        </p>
+        <button 
+          type="button"
+          className="toggle-sample-btn"
+          onClick={() => setShowSample(!showSample)}
+        >
+          {showSample ? "Hide Sample Image" : "Show Sample Image"}
+        </button>
+        
+        {showSample && (
+          <div className="sample-image-container">
+            <img src={sampleMriImage} alt="Sample MRI Scan" className="sample-mri-img" />
+          </div>
+        )}
+      </div>
+
+      {/* Main layout container: Switches to 2-column grid when results appear */}
       <div className={`main-layout ${result ? "split-view" : ""}`}>
         
-        {/* Left Column: Upload box / Image preview box */}
+        {/* Left Column: Dropzone or Image Preview Card */}
         <div className="left-column">
           {!preview ? (
             <div
@@ -167,13 +162,13 @@ export default function App() {
               <small>JPG, PNG, BMP, TIFF, WEBP · max {MAX_MB} MB</small>
             </div>
           ) : (
-            <div className="card">
+            <div className="card preview-card">
               <img src={preview} alt="MRI preview" className="preview" />
-              <div className="actions">
-                <button onClick={analyze} disabled={loading} style={{ width: "100%" }}>
+              <div className="actions horizontal-actions">
+                <button onClick={analyze} disabled={loading}>
                   {loading ? "Analyzing…" : "Analyze MRI"}
                 </button>
-                <button className="secondary" onClick={reset} disabled={loading} style={{ width: "100%", marginTop: "10px" }}>
+                <button className="secondary" onClick={reset} disabled={loading}>
                   Remove
                 </button>
               </div>
@@ -181,10 +176,10 @@ export default function App() {
           )}
         </div>
 
-        {/* Right Column: Analysis Result Box appears here side-by-side */}
+        {/* Right Column: Result Box (Appears side-by-side matching left card height) */}
         {result && (
           <div className="right-column">
-            <section className="card result sticky-result">
+            <section className="card result match-height-card">
               <h2>{result.prediction}</h2>
               <p className="conf">
                 Confidence: <strong>{(result.confidence * 100).toFixed(2)}%</strong>
